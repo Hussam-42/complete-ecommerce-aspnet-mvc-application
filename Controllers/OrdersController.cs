@@ -70,7 +70,7 @@ namespace eTicket.Controllers
 
         }
 
-        public async Task<IActionResult> CompleteOrder()
+        public async Task<IActionResult> OrderCompleted()
         {
 
             var items = _ShoppingCart.GetShoppingCartItems();

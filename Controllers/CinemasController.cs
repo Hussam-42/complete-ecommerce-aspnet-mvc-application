@@ -1,12 +1,16 @@
 ﻿using eTicket.Data;
 using eTicket.Data.Services;
+using eTicket.Data.Static;
 using eTicket.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
 namespace eTicket.Controllers
 {
+
+    [Authorize(Roles = UserRoles.Admin)]
     public class CinemasController : Controller
     {
 
@@ -42,6 +46,7 @@ namespace eTicket.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int id)
         {
             var CinemaDetails = await _service.GetByIdAsync(id);

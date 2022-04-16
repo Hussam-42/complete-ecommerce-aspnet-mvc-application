@@ -16,12 +16,22 @@ namespace eTicket.Data.Services
             _context = context;
         }
 
-        public async Task<List<Order>> GetOrdersByUserIdAsync(string UsrId) =>
+        public async Task<List<Order>> GetOrdersByUserIdAndRoleAsync(string UsrId, string UserRole)
+        {
+            var orders = await _context.Orders.Include(o => o.OrderItems)
+                                              .ThenInclude(oi => oi.Movie)
+                                              .Include(oi => oi.User)
+                                              .ToListAsync();
 
-            await _context.Orders.Include(o => o.OrderItems)
-                                 .ThenInclude(oi => oi.Movie)
-                                 .Where(o => o.UserId == UsrId)
-                                 .ToListAsync();
+            if(UserRole != "Admin")
+            {
+                orders = orders.Where(o => o.UserId == UsrId).ToList();
+            }
+
+            return orders;
+        }
+
+
 
         public async Task StoreOrderAsync(string UsrId, string UsrEmail, List<ShoppingCartItem> Items)
         {

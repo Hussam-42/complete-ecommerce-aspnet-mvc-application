@@ -1,6 +1,8 @@
 ﻿using eTicket.Data;
 using eTicket.Data.Services;
+using eTicket.Data.Static;
 using eTicket.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace eTicket.Controllers
 {
+    
     public class MoviesController : Controller
     {
         private readonly IMoviesService _service;
@@ -57,6 +60,7 @@ namespace eTicket.Controllers
 
         }
 
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> Create()
         {
             var Dropdowns = await _service.GetAlldropdownsVM();
@@ -86,6 +90,7 @@ namespace eTicket.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> Edit(int id)
         {
             var dbMovie = await _service.GetMovieByIdAsync(id);

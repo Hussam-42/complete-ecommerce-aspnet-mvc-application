@@ -7,7 +7,8 @@ namespace eTicket.Data.Services
     public interface IOrdersService
     {
         public Task StoreOrderAsync(string UsrId, string UsrEmail, List<ShoppingCartItem> Items);
-        public Task<List<Order>> GetOrdersByUserIdAsync(string UsrId);
+
+        public Task<List<Order>> GetOrdersByUserIdAndRoleAsync(string UsrId, string UserRole);
     }
 
 }
